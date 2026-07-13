@@ -1,0 +1,93 @@
+html {
+    height: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+body {
+    background-color: #ffcd9e;
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#logo {
+    width: 130px;
+    height: 45px;
+}
+
+#cartdiv {
+    background-color: #ff9a3d;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    border-radius: 999px;
+}
+#carticon {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+}
+
+#cartspan {
+color: #fff;
+font-weight: 1500;
+font-size: 1.5rem;
+
+}
+
+.navlinks {
+    display: flex;
+    gap: 45px;
+}
+
+.navlinks a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 1.15rem;
+    font-weight: 400;
+    padding-top: 18px;
+}
+
+.mainparentdiv {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.subdiv {
+    flex-basis: 42%;
+    min-width: 300px;
+}
+
+.subdiv img {
+    max-width: 100%;
+    padding: 50px 0;
+}
+
+.subdiv h1 {
+    color: #ff7a00;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 80px;
+    line-height: 90px;
+    margin: 25px 0px;
+}
+
+.btn {
+    display: inline-block;
+    background: #ff9a3d;
+    color: #fff;
+    padding: 12px 50px;
+    margin: 30px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    position: relative;
+    left: 45%;
+    top: -90px;
+    font-family: Arial, Helvetica, sans-serif;
+}
