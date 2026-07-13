@@ -22,20 +22,20 @@ body {
     background-color: #ff9a3d;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 15px;
+    gap: 6px;
+    padding: 2px 14px;
     border-radius: 999px;
 }
 #carticon {
     width: 35px;
-    height: 35px;
+    height: 30px;
     flex-shrink: 0;
 }
 
 #cartspan {
 color: #fff;
 font-weight: 1500;
-font-size: 1.5rem;
+font-size: 1.4rem;
 
 }
 
@@ -90,4 +90,15 @@ font-size: 1.5rem;
     left: 45%;
     top: -90px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+#aboutpara {
+    background-color: black;
+    margin: 15%;
+    padding: 30px;
+    color: #fff;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    width: 1000px;
 }
