@@ -12,18 +12,18 @@ home-page {
     /* background-color: #ffcd9e; */
     /* display: flex; */
     /* min-height: 100vh; */
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
 }
 shop-page {
-    background-color: #ffe9d6;
+    /* background-color: #ffe9d6; */
         /* display: flex; */
     /* min-height: 100vh; */
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
 }
 about-page {
         /* display: flex; */
     /* min-height: 100vh; */
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
 }
 
 /* main {
@@ -58,10 +58,11 @@ about-page {
 }
 
 #cartspan {
-color: #fff;
-font-weight: 1500;
-font-size: 1.4rem;
-
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #fff;
+    font-weight: 1500;
+    font-size: 1.4rem;
+    padding-left: 0.5px;
 }
 
 .navlinks {
