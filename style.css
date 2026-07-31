@@ -88,7 +88,8 @@ about-page {
 
 .subdiv {
     flex-basis: 42%;
-    min-width: 300px;
+    /* min-width: 300px; */
+    width: fit-content;
 }
 
 .subdiv img {
@@ -108,9 +109,15 @@ about-page {
     transition: filter 0.3s ease;
 }
 
-.sub-div:hover .product-info img {
+.sub-div:hover .product-info img, .in-cart .product-image {
     filter: brightness(60%);
 }
+/* .product-image:hover {
+    filter: brightness(60%);
+} */
+ .sub-div:hover .price-overlay, .in-cart .price-overlay {
+    display: block;
+ }
 
 .product-info {
     display: flex;
@@ -118,27 +125,62 @@ about-page {
     align-items: center;
 }
 
-/* .sub-div:hover img {
-    background-color: dimgray;
-} */
-
 .in-cart button {
     background-color: #FFCD9E;
 }
 
 
-/* .price-tag {
-    display: none;
-    font-size: 18px;
-    font-weight: bold;
-    color:#fff;
-    text-decoration: underline;
-    margin-top: 8px;
+/* HOVERING EFFECT, PRICE DISPLAY */
+/* ///////////////////////////////////////////////////// */
+.image-container{
+    position: relative;
+    width: fit-content;
 }
+.product-image{
 
-.sub-div:hover .price-tag {
-    display: block;
-} */
+    width: 100%;
+
+    border-radius: 12px;
+
+    transition: filter .3s ease;
+}
+.price-overlay{
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+
+    display: none;
+}
+.sub-div:hover .price-overlay{
+
+    display:block;
+}
+.price-title{
+
+    color:white;
+
+    text-decoration: underline;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+}
+.price-value{
+
+    color:#FFF;
+
+    font-size:24px;
+
+    font-weight:bold;
+}
+/* ///////////////////////////////////////////////// */
 
 .btn {
     display: inline-block;

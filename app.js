@@ -2,17 +2,40 @@
 const myProduct = document.querySelector(".gadgets");
 
 //RENDER PRODUCTS
+// function renderProducts(){
+//     products.forEach( (product) => {
+//         myProduct.innerHTML += `
+//             <div class="sub-div" data-id ="${product.id}">
+//                 <div class="product-info">
+//                     <img src="${product.imgSrc}" alt="">
+//                     <P>${product.name}</P>
+//                     <div class="price-tag">
+//                     <p class="price-title">PRICE</p>
+//                     <p class="price-value">₵${product.price}</p>
+//                     </div>
+//                 </div>
+//             <button onclick="addToCart('${product.id}')">ADD TO CART</button>
+//             </div>
+//         `
+//     })
+// }
+// renderProducts();
+
+
+////////////////////TRIAL/////////////////////
 function renderProducts(){
     products.forEach( (product) => {
         myProduct.innerHTML += `
             <div class="sub-div" data-id ="${product.id}">
                 <div class="product-info">
-                    <img src="${product.imgSrc}" alt="">
-                    <P>${product.name}</P>
-                    <div class="price-tag">
-                    <p class="price-title">PRICE</p>
-                    <p class="price-value">₵${product.price}</p>
+                    <div class="image-container">
+                        <img class="product-image" src="${product.imgSrc}" alt="">
+                        <div class="price-overlay">
+                            <p class="price-title">PRICE</p>
+                            <p class="price-value">₵${product.price}</p>
+                        </div>
                     </div>
+                    <p class="product-name">${product.name}</p>
                 </div>
             <button onclick="addToCart('${product.id}')">ADD TO CART</button>
             </div>
@@ -20,6 +43,7 @@ function renderProducts(){
     })
 }
 renderProducts();
+///////////////////////////////////////
 
 
 function addToCart(id) {
@@ -39,7 +63,7 @@ function addToCart(id) {
 }
 
     
-
+/*
 //CART ARRAY
 let cart = [];
 
@@ -58,3 +82,4 @@ function addToCart(id) {
     }
     updateCart();
 }
+*/
