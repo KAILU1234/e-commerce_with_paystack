@@ -1,29 +1,11 @@
 //SELECT ELEMENTS
 const myProduct = document.querySelector(".gadgets");
-
-//RENDER PRODUCTS
-// function renderProducts(){
-//     products.forEach( (product) => {
-//         myProduct.innerHTML += `
-//             <div class="sub-div" data-id ="${product.id}">
-//                 <div class="product-info">
-//                     <img src="${product.imgSrc}" alt="">
-//                     <P>${product.name}</P>
-//                     <div class="price-tag">
-//                     <p class="price-title">PRICE</p>
-//                     <p class="price-value">₵${product.price}</p>
-//                     </div>
-//                 </div>
-//             <button onclick="addToCart('${product.id}')">ADD TO CART</button>
-//             </div>
-//         `
-//     })
-// }
-// renderProducts();
+const totalItems = document.querySelector(".totalItemsInCart");
 
 
 ////////////////////TRIAL/////////////////////
-function renderProducts(){
+if (myProduct){
+    function renderProducts(){
     products.forEach( (product) => {
         myProduct.innerHTML += `
             <div class="sub-div" data-id ="${product.id}">
@@ -43,6 +25,8 @@ function renderProducts(){
     })
 }
 renderProducts();
+}
+
 ///////////////////////////////////////
 
 
@@ -62,7 +46,95 @@ function addToCart(id) {
     }
 }
 
+
+const cartDiv = document.getElementById("cartdiv");
+const cartModal = document.getElementById("cartModal");
+
+cartDiv.onclick = function () {
+    cartModal.style.display = "flex";
+};
+
+const continueBtn = document.getElementById("continueBtn");
+
+// continueBtn.onclick = function () {
+//     cartModal.style.display = "none";
+// };
+continueBtn.onclick = function () {
+    console.log("Continue button clicked");
+    cartModal.style.display = "none";
+};
     
+// function renderSubTotal() {
+//     let totalPrice = 0;
+//     totalItems = 0;
+
+//     CaretPosition.forEach((item) => {
+//         totalPrice += item.price * item.numberO
+//     } )
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 //CART ARRAY
 let cart = [];
@@ -83,3 +155,25 @@ function addToCart(id) {
     updateCart();
 }
 */
+
+
+
+//RENDER PRODUCTS
+// function renderProducts(){
+//     products.forEach( (product) => {
+//         myProduct.innerHTML += `
+//             <div class="sub-div" data-id ="${product.id}">
+//                 <div class="product-info">
+//                     <img src="${product.imgSrc}" alt="">
+//                     <P>${product.name}</P>
+//                     <div class="price-tag">
+//                     <p class="price-title">PRICE</p>
+//                     <p class="price-value">₵${product.price}</p>
+//                     </div>
+//                 </div>
+//             <button onclick="addToCart('${product.id}')">ADD TO CART</button>
+//             </div>
+//         `
+//     })
+// }
+// renderProducts();
