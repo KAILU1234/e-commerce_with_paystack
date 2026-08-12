@@ -1,6 +1,8 @@
 //SELECT ELEMENTS
 const myProduct = document.querySelector(".gadgets");
-const totalItems = document.querySelector(".totalItemsInCart");
+const totalItems = document.querySelector(".totalItemsInCart");  
+
+let cart = [];
 
 
 ////////////////////TRIAL/////////////////////
@@ -27,51 +29,138 @@ if (myProduct){
 renderProducts();
 }
 
-///////////////////////////////////////
-
-
 function addToCart(id) {
+
     const card = document.querySelector(`[data-id="${id}"]`);
+
     card.classList.toggle("in-cart");
 
     const button = card.querySelector("button");
-    const priceTag = card.querySelector(".price-tag");
 
     if (card.classList.contains("in-cart")) {
+
         button.textContent = "REMOVE FROM CART";
-        // priceTag.style.display = "block";
+
+        const item = products.find((product) => product.id === id);
+
+        cart.push({
+            ...item,
+            numberOfUnits: 1
+        });
+
+        console.log(cart);
+
     } else {
+
         button.textContent = "ADD TO CART";
-        // priceTag.style.display = "none";
+
+        cart = cart.filter((item) => item.id !== id);
+
+        console.log(cart);
     }
+
+    updateCart();
+    
 }
 
+//update cart
+function updateCart(){
+    renderCartItemsList();
+    // renderSubTotal();
+}
+
+// Render Cart Items List
+// function renderCartItemslist(){
+//     cart.forEach(() => {
+//         totalItems.innerHTML += `
+            
+//         `      
+//     })
+// }
+function renderCartItemsList() {
+
+    const cartTableBody = document.getElementById("cartTableBody");
+
+    cartTableBody.innerHTML = "";
+
+    cart.forEach((item, index) => {
+
+        cartTableBody.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+
+                <td>${item.name}</td>
+
+                <td>₵${item.price}</td>
+
+                <td>
+                    <button onclick="ChangeNumberOfUnits('minus', '${item.id}')">-</button>
+                    ${item.numberOfUnits}
+                    <button onclick="ChangeNumberOfUnits('plus', '${item.id}')">+</button>
+                </td>
+
+                <td>
+                    <button onclick="removeFromCart('${item.id}')">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        `;
+
+    });
+}
+// change Nuumber Of Units For an Item
+function ChangeNumberOfUnits(action, id){
+    cart = cart.map((item) => {
+        let numberOfUnits = item.numberOfUnits;
+        if (item.id === id) {
+            if (action === 'minus' && numberOfUnits > 1){
+             numberOfUnits--;
+            }else if (action === 'plus' && numberOfUnits < item.instock){
+             numberOfUnits ++;
+            }
+        }
+
+        return {
+            ...item,
+            numberOfUnits,
+        };
+    });
+
+    updateCart();
+}
 
 const cartDiv = document.getElementById("cartdiv");
 const cartModal = document.getElementById("cartModal");
 
-cartDiv.onclick = function () {
-    cartModal.style.display = "flex";
-};
+if (cartDiv && cartModal) {
+    cartDiv.onclick = function () {
+        cartModal.style.display = "flex";
+    };
+}
 
 const continueBtn = document.getElementById("continueBtn");
 
-// continueBtn.onclick = function () {
-//     cartModal.style.display = "none";
-// };
-continueBtn.onclick = function () {
-    console.log("Continue button clicked");
-    cartModal.style.display = "none";
-};
+if (continueBtn && cartModal) {
+    continueBtn.onclick = function () {
+        cartModal.style.display = "none";
+    };
+}
+
+
     
 // function renderSubTotal() {
 //     let totalPrice = 0;
-//     totalItems = 0;
 
-//     CaretPosition.forEach((item) => {
-//         totalPrice += item.price * item.numberO
-//     } )
+//     cart.forEach((item) => {
+//         totalPrice += item.price * item.numberOfUnits;
+//     });
+
+//     totalItems.textContent = cart.length;
+
+//     totalPriceElement.textContent = `₵${totalPrice}`;
 // }
+
 
 
 

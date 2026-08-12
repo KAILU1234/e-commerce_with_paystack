@@ -71,6 +71,50 @@
         </div>
         <span id="footerSpan">.....Designed and Crafted by @Kailu.....</span>
     </footer>
+    <!-- SHOPPING CART MODAL -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-container">
+            <!-- ITEMS SECTION -->
+            <section class="cart-items">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTableBody">
+                        <!-- JavaScript will insert rows here -->
+                    </tbody>
+                </table>
+            </section>
+            <!-- USER DETAILS -->
+            <section class="user-details">
+                <input type="text" placeholder="Your Name" class="inputField">
+                <br><br>
+                <input type="email" placeholder="Your Email" class="inputField">
+                <br><br>
+                <input type="text" placeholder="Your Phone Number" class="inputField">
+            </section>
+            <!-- TOTAL -->
+            <section class="total-section">
+                <p>Total Amount to be Paid</p>
+                <h2 id="totalPrice">₵0</h2>
+            </section>
+            <!-- ACTIONS -->
+            <section class="cart-actions">
+                <button id="continueBtn">
+                    Continue Shopping
+                </button>
+                <button id="checkoutBtn">
+                    Checkout
+                </button>
+            </section>
+        </div>
+    </div>
     <script src="products.js"></script>
     <script src="app.js"></script>
 </body>
