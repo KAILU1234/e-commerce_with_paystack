@@ -1,8 +1,11 @@
 //SELECT ELEMENTS
 const myProduct = document.querySelector(".gadgets");
 const totalItems = document.querySelector(".totalItemsInCart");  
+const subtotalEl = document.getElementById("totalPrice");
+const totalItemsInCartEl = document.getElementById("cartspan");
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("CART")) || [];
+updateCart();
 
 
 ////////////////////TRIAL/////////////////////
@@ -48,15 +51,12 @@ function addToCart(id) {
             numberOfUnits: 1
         });
 
-        console.log(cart);
-
+        // updateCart();
     } else {
 
         button.textContent = "ADD TO CART";
 
-        cart = cart.filter((item) => item.id !== id);
-
-        console.log(cart);
+        removeItemFromCart(id);
     }
 
     updateCart();
@@ -66,17 +66,49 @@ function addToCart(id) {
 //update cart
 function updateCart(){
     renderCartItemsList();
-    // renderSubTotal();
+    renderSubtotal();
+
+    // save cart to local storage
+    localStorage.setItem("CART", JSON.stringify(cart));
 }
 
-// Render Cart Items List
-// function renderCartItemslist(){
-//     cart.forEach(() => {
-//         totalItems.innerHTML += `
-            
-//         `      
-//     })
-// }
+
+//calculate and render subtotal
+function renderSubtotal() {
+    let totalPrice = 0;
+    let subtotalItemsInCart = 0;
+
+    cart.forEach((item) => {
+        totalPrice += item.price * item.numberOfUnits;
+        subtotalItemsInCart += item.numberOfUnits;
+    });
+
+    subtotalEl.innerHTML = `₵${totalPrice.toFixed(2)}`;
+    totalItemsInCartEl.innerHTML = subtotalItemsInCart;
+}
+
+//remove item from cart
+function removeItemFromCart(id) {
+
+    // Remove item from cart array
+    cart = cart.filter((item) => item.id !== id);
+
+    // Find the product card on the shop page
+    const card = document.querySelector(`[data-id="${id}"]`);
+
+    if (card) {
+        card.classList.remove("in-cart");
+
+        const button = card.querySelector("button");
+
+        if (button) {
+            button.textContent = "ADD TO CART";
+        }
+    }
+
+    updateCart();
+}
+
 function renderCartItemsList() {
 
     const cartTableBody = document.getElementById("cartTableBody");
@@ -100,7 +132,7 @@ function renderCartItemsList() {
                 </td>
 
                 <td>
-                    <button onclick="removeFromCart('${item.id}')">
+                    <button onclick="removeItemFromCart('${item.id}')">
                         Remove
                     </button>
                 </td>
@@ -147,6 +179,46 @@ if (continueBtn && cartModal) {
     };
 }
 
+updateCart();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 // function renderSubTotal() {
@@ -160,60 +232,6 @@ if (continueBtn && cartModal) {
 
 //     totalPriceElement.textContent = `₵${totalPrice}`;
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
