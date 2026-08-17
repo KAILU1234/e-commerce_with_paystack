@@ -337,6 +337,7 @@ button {
 }
 
 .cart-items th {
+    font-weight: bold;
     text-align: left;
     padding: 8px 12px;
 }
@@ -379,7 +380,8 @@ button {
 
 .user-details {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .inputField {
@@ -401,16 +403,18 @@ button {
 .total-section {
     width: 100%;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 5px;
 }
 
 .total-section p {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .total-section h2 {
-    font-size: 25px;
+    font-weight: bold;
+    font-size: 30px;
 }
 
 
@@ -422,18 +426,22 @@ button {
     display: flex;
     width: 50%;
     /* margin: 10px auto 0; */
-    margin: 10px 0 0 350px;
-    gap: 5px;
+    margin: 5px 0 0 350px;
+    gap: 3px;
 }
 
 .cart-actions button {
     flex: 1;
     padding: 10px;
+    margin-top: 2px;
     border: none;
     cursor: pointer;
 }
 #continueBtn {
     background-color: #FFCD9E;
+}
+#error {
+    background-color: red;
 }
 /* //////////////////////////////////////////////////////////// */
 

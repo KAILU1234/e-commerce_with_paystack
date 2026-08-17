@@ -4,6 +4,14 @@ const totalItems = document.querySelector(".totalItemsInCart");
 const subtotalEl = document.getElementById("totalPrice");
 const totalItemsInCartEl = document.getElementById("cartspan");
 
+// form validation
+const name = document.getElementById("name");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const checkoutForm = document.getElementById("checkoutForm");
+const errorElement = document.getElementById("error");
+
+
 let cart = JSON.parse(localStorage.getItem("CART")) || [];
 updateCart();
 
@@ -182,6 +190,47 @@ if (continueBtn && cartModal) {
 updateCart();
 
 
+// form validation
+// checkoutForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     let messages = [];
+//     if (name.value.trim() === '' || name.value == null) {
+//         messages.push('Name is required please!');
+//     }
+
+//     if (messages.length > 0) {
+//             errorElement.innerText = messages.join(', ');
+//             return;
+//     }
+//     console.log("Checkout form submitted");
+// })
+
+
+if (checkoutForm) {
+
+    checkoutForm.addEventListener("submit", (e) => {
+
+        e.preventDefault();
+
+        let messages = [];
+
+        if (name.value === "" || name.value == null) {
+            messages.push("Name is required please!");
+        }
+
+        if (messages.length > 0) {
+            errorElement.innerText = messages.join(", ");
+            return;
+        }
+
+        console.log("VALIDATION PASSED");
+
+        // Later:
+        // Paystack code goes here
+
+    });
+
+}
 
 
 
