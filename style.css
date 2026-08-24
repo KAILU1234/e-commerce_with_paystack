@@ -321,6 +321,9 @@ button {
     overflow-y: auto;
 }
 
+#removebtn {
+    background-color: #FFCD9E;
+}
 
 /* =========================
    ITEMS SECTION

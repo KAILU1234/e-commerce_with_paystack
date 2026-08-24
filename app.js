@@ -1,132 +1,218 @@
-//SELECT ELEMENTS
+// ========================================
+// SELECT ELEMENTS
+// ========================================
+
 const myProduct = document.querySelector(".gadgets");
-const totalItems = document.querySelector(".totalItemsInCart");  
 const subtotalEl = document.getElementById("totalPrice");
 const totalItemsInCartEl = document.getElementById("cartspan");
 
-// form validation
-const name = document.getElementById("name");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
+const cartDiv = document.getElementById("cartdiv");
+const cartModal = document.getElementById("cartModal");
+const continueBtn = document.getElementById("continueBtn");
+
+// Form elements
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
 const checkoutForm = document.getElementById("checkoutForm");
 const errorElement = document.getElementById("error");
 
 
+// ========================================
+// CART
+// ========================================
+
+// Get cart from Local Storage
 let cart = JSON.parse(localStorage.getItem("CART")) || [];
-updateCart();
 
 
-////////////////////TRIAL/////////////////////
-if (myProduct){
-    function renderProducts(){
-    products.forEach( (product) => {
+// ========================================
+// RENDER PRODUCTS ON SHOP PAGE
+// ========================================
+
+function renderProducts() {
+
+    // Stop if this page does not have products
+    if (!myProduct) return;
+
+    // Clear the container first
+    myProduct.innerHTML = "";
+
+    products.forEach((product) => {
+
+        // Check whether this product is already in the cart
+        const productIsInCart = cart.some(
+            (item) => item.id === product.id
+        );
+
         myProduct.innerHTML += `
-            <div class="sub-div" data-id ="${product.id}">
+            <div 
+                class="sub-div ${productIsInCart ? "in-cart" : ""}" 
+                data-id="${product.id}"
+            >
+
                 <div class="product-info">
+
                     <div class="image-container">
-                        <img class="product-image" src="${product.imgSrc}" alt="">
+
+                        <img 
+                            class="product-image" 
+                            src="${product.imgSrc}" 
+                            alt="${product.name}"
+                        >
+
                         <div class="price-overlay">
                             <p class="price-title">PRICE</p>
                             <p class="price-value">₵${product.price}</p>
                         </div>
+
                     </div>
+
                     <p class="product-name">${product.name}</p>
+
                 </div>
-            <button onclick="addToCart('${product.id}')">ADD TO CART</button>
+
+                <button onclick="addToCart('${product.id}')">
+                    ${productIsInCart
+                        ? "REMOVE FROM CART"
+                        : "ADD TO CART"}
+                </button>
+
             </div>
-        `
-    })
+        `;
+    });
 }
-renderProducts();
-}
+
+
+// ========================================
+// ADD OR REMOVE PRODUCT FROM CART
+// ========================================
 
 function addToCart(id) {
 
-    const card = document.querySelector(`[data-id="${id}"]`);
+    // Check if the item is already in the cart
+    const itemAlreadyInCart = cart.some(
+        (item) => item.id === id
+    );
 
-    card.classList.toggle("in-cart");
+    if (itemAlreadyInCart) {
 
-    const button = card.querySelector("button");
+        // If already in cart, remove it
+        removeItemFromCart(id);
 
-    if (card.classList.contains("in-cart")) {
+    } else {
 
-        button.textContent = "REMOVE FROM CART";
+        // Find the product in products.js
+        const product = products.find(
+            (product) => product.id === id
+        );
 
-        const item = products.find((product) => product.id === id);
-
+        // Add it to the cart
         cart.push({
-            ...item,
+            ...product,
             numberOfUnits: 1
         });
 
-        // updateCart();
-    } else {
-
-        button.textContent = "ADD TO CART";
-
-        removeItemFromCart(id);
+        // Update everything
+        updateCart();
     }
 
-    updateCart();
-    
+    // Update the shop buttons
+    renderProducts();
 }
 
-//update cart
-function updateCart(){
+
+// ========================================
+// REMOVE ITEM FROM CART
+// ========================================
+
+function removeItemFromCart(id) {
+
+    // Keep every item EXCEPT the selected one
+    cart = cart.filter(
+        (item) => item.id !== id
+    );
+
+    // Update cart display and Local Storage
+    updateCart();
+
+    // Update Shop page button
+    renderProducts();
+}
+
+
+// ========================================
+// CHANGE QUANTITY
+// ========================================
+
+function ChangeNumberOfUnits(action, id) {
+
+    cart = cart.map((item) => {
+
+        if (item.id === id) {
+
+            if (
+                action === "minus" &&
+                item.numberOfUnits > 1
+            ) {
+                return {
+                    ...item,
+                    numberOfUnits: item.numberOfUnits - 1
+                };
+            }
+
+            if (action === "plus") {
+                return {
+                    ...item,
+                    numberOfUnits: item.numberOfUnits + 1
+                };
+            }
+        }
+
+        return item;
+    });
+
+    updateCart();
+}
+
+
+// ========================================
+// UPDATE THE ENTIRE CART
+// ========================================
+
+function updateCart() {
+
     renderCartItemsList();
     renderSubtotal();
 
-    // save cart to local storage
-    localStorage.setItem("CART", JSON.stringify(cart));
+    // Save the current cart
+    localStorage.setItem(
+        "CART",
+        JSON.stringify(cart)
+    );
 }
 
 
-//calculate and render subtotal
-function renderSubtotal() {
-    let totalPrice = 0;
-    let subtotalItemsInCart = 0;
-
-    cart.forEach((item) => {
-        totalPrice += item.price * item.numberOfUnits;
-        subtotalItemsInCart += item.numberOfUnits;
-    });
-
-    subtotalEl.innerHTML = `₵${totalPrice.toFixed(2)}`;
-    totalItemsInCartEl.innerHTML = subtotalItemsInCart;
-}
-
-//remove item from cart
-function removeItemFromCart(id) {
-
-    // Remove item from cart array
-    cart = cart.filter((item) => item.id !== id);
-
-    // Find the product card on the shop page
-    const card = document.querySelector(`[data-id="${id}"]`);
-
-    if (card) {
-        card.classList.remove("in-cart");
-
-        const button = card.querySelector("button");
-
-        if (button) {
-            button.textContent = "ADD TO CART";
-        }
-    }
-
-    updateCart();
-}
+// ========================================
+// RENDER CART ITEMS
+// ========================================
 
 function renderCartItemsList() {
 
-    const cartTableBody = document.getElementById("cartTableBody");
+    const cartTableBody =
+        document.getElementById("cartTableBody");
 
+    // Stop if this page doesn't have the cart table
+    if (!cartTableBody) return;
+
+    // Clear previous rows
     cartTableBody.innerHTML = "";
 
     cart.forEach((item, index) => {
 
         cartTableBody.innerHTML += `
             <tr>
+
                 <td>${index + 1}</td>
 
                 <td>${item.name}</td>
@@ -134,202 +220,280 @@ function renderCartItemsList() {
                 <td>₵${item.price}</td>
 
                 <td>
-                    <button onclick="ChangeNumberOfUnits('minus', '${item.id}')">-</button>
+
+                    <button
+                        onclick="ChangeNumberOfUnits(
+                            'minus',
+                            '${item.id}'
+                        )"
+                    >
+                        -
+                    </button>
+
                     ${item.numberOfUnits}
-                    <button onclick="ChangeNumberOfUnits('plus', '${item.id}')">+</button>
+
+                    <button
+                        onclick="ChangeNumberOfUnits(
+                            'plus',
+                            '${item.id}'
+                        )"
+                    >
+                        +
+                    </button>
+
                 </td>
 
                 <td>
-                    <button onclick="removeItemFromCart('${item.id}')">
+
+                    <button
+                        onclick="removeItemFromCart('${item.id}')"
+                    >
                         Remove
                     </button>
+
                 </td>
+
             </tr>
         `;
-
     });
 }
-// change Nuumber Of Units For an Item
-function ChangeNumberOfUnits(action, id){
-    cart = cart.map((item) => {
-        let numberOfUnits = item.numberOfUnits;
-        if (item.id === id) {
-            if (action === 'minus' && numberOfUnits > 1){
-             numberOfUnits--;
-            }else if (action === 'plus' && numberOfUnits < item.instock){
-             numberOfUnits ++;
-            }
-        }
 
-        return {
-            ...item,
-            numberOfUnits,
-        };
+
+// ========================================
+// CALCULATE SUBTOTAL AND CART COUNT
+// ========================================
+
+function renderSubtotal() {
+
+    let totalPrice = 0;
+    let totalItems = 0;
+
+    cart.forEach((item) => {
+
+        totalPrice +=
+            item.price * item.numberOfUnits;
+
+        totalItems +=
+            item.numberOfUnits;
     });
 
-    updateCart();
+    // Update total price
+    if (subtotalEl) {
+        subtotalEl.innerHTML =
+            `₵${totalPrice.toFixed(2)}`;
+    }
+
+    // Update number on cart icon
+    if (totalItemsInCartEl) {
+        totalItemsInCartEl.innerHTML = totalItems;
+    }
 }
 
-const cartDiv = document.getElementById("cartdiv");
-const cartModal = document.getElementById("cartModal");
+
+// ========================================
+// OPEN CART MODAL
+// ========================================
 
 if (cartDiv && cartModal) {
-    cartDiv.onclick = function () {
+
+    cartDiv.addEventListener("click", () => {
+
+        updateCart();
+
         cartModal.style.display = "flex";
-    };
+    });
 }
 
-const continueBtn = document.getElementById("continueBtn");
+
+// ========================================
+// CLOSE CART MODAL
+// ========================================
 
 if (continueBtn && cartModal) {
-    continueBtn.onclick = function () {
+
+    continueBtn.addEventListener("click", () => {
+
         cartModal.style.display = "none";
-    };
+    });
 }
 
+
+// ========================================
+// FORM VALIDATION FUNCTIONS
+// ========================================
+
+function validateName() {
+
+    // If this page has no name field, stop
+    if (!nameInput) return "";
+
+    if (nameInput.value.trim() === "") {
+        return "Name is required!";
+    }
+
+    return "";
+}
+
+
+function validateEmail() {
+
+    if (!emailInput) return "";
+
+    const emailValue =
+        emailInput.value.trim();
+
+    // Correct email pattern
+    const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailValue === "") {
+        return "Email is required!";
+    }
+
+    if (!emailPattern.test(emailValue)) {
+        return "Please enter a valid email address!";
+    }
+
+    return "";
+}
+
+
+function validatePhone() {
+
+    if (!phoneInput) return "";
+
+    const phoneValue =
+        phoneInput.value.trim();
+
+    // Exactly 10 digits
+    const phonePattern = /^\d{10}$/;
+
+    if (phoneValue === "") {
+        return "Phone number is required!";
+    }
+
+    if (!phonePattern.test(phoneValue)) {
+        return "Phone number must contain exactly 10 digits!";
+    }
+
+    return "";
+}
+
+
+// ========================================
+// VALIDATE EACH FIELD WHEN USER LEAVES IT
+// ========================================
+
+if (nameInput && errorElement) {
+
+    nameInput.addEventListener("blur", () => {
+
+        errorElement.innerText =
+            validateName();
+    });
+}
+
+
+if (emailInput && errorElement) {
+
+    emailInput.addEventListener("blur", () => {
+
+        errorElement.innerText =
+            validateEmail();
+    });
+}
+
+
+if (phoneInput && errorElement) {
+
+    phoneInput.addEventListener("blur", () => {
+
+        errorElement.innerText =
+            validatePhone();
+    });
+}
+
+
+// ========================================
+// CHECKOUT FORM SUBMISSION
+// ========================================
+
+if (checkoutForm && errorElement) {
+
+    checkoutForm.addEventListener(
+        "submit",
+        (e) => {
+
+            // Stop the form from refreshing the page
+            e.preventDefault();
+
+            console.log(
+                "CHECKOUT BUTTON WAS CLICKED"
+            );
+
+            let messages = [];
+
+            // Validate name
+            const nameError = validateName();
+
+            if (nameError) {
+                messages.push(nameError);
+            }
+
+
+            // Validate email
+            const emailError = validateEmail();
+
+            if (emailError) {
+                messages.push(emailError);
+            }
+
+
+            // Validate phone
+            const phoneError = validatePhone();
+
+            if (phoneError) {
+                messages.push(phoneError);
+            }
+
+
+            // If there are errors
+            if (messages.length > 0) {
+
+                errorElement.innerText =
+                    messages.join(", ");
+
+                console.log(
+                    "VALIDATION FAILED:",
+                    messages
+                );
+
+                return;
+            }
+
+
+            // Validation passed
+            errorElement.innerText = "";
+
+            console.log(
+                "VALIDATION PASSED"
+            );
+
+            alert(
+                "Validation passed! Ready for checkout."
+            );
+
+            // PAYSTACK CODE WILL GO HERE
+        }
+    );
+}
+
+
+// ========================================
+// INITIALIZE APPLICATION
+// ========================================
+
+renderProducts();
 updateCart();
 
-
-// form validation
-// checkoutForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     let messages = [];
-//     if (name.value.trim() === '' || name.value == null) {
-//         messages.push('Name is required please!');
-//     }
-
-//     if (messages.length > 0) {
-//             errorElement.innerText = messages.join(', ');
-//             return;
-//     }
-//     console.log("Checkout form submitted");
-// })
-
-
-if (checkoutForm) {
-
-    checkoutForm.addEventListener("submit", (e) => {
-
-        e.preventDefault();
-
-        let messages = [];
-
-        if (name.value === "" || name.value == null) {
-            messages.push("Name is required please!");
-        }
-
-        if (messages.length > 0) {
-            errorElement.innerText = messages.join(", ");
-            return;
-        }
-
-        console.log("VALIDATION PASSED");
-
-        // Later:
-        // Paystack code goes here
-
-    });
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-// function renderSubTotal() {
-//     let totalPrice = 0;
-
-//     cart.forEach((item) => {
-//         totalPrice += item.price * item.numberOfUnits;
-//     });
-
-//     totalItems.textContent = cart.length;
-
-//     totalPriceElement.textContent = `₵${totalPrice}`;
-// }
-
-
-
-
-
-
-
-
-
-
-/*
-//CART ARRAY
-let cart = [];
-
-//ADD TO CART
-function addToCart(id) {
-    //check if product already exists in cart
-    if(cart.some((item) => item.id === id)) {
-        alert("Product already exists in cart!");
-    }else{
-        const item = products.find((product) => product.id === id);
-
-        cart.push({
-            ...item,
-            numberOfUnits: 1,
-        });
-    }
-    updateCart();
-}
-*/
-
-
-
-//RENDER PRODUCTS
-// function renderProducts(){
-//     products.forEach( (product) => {
-//         myProduct.innerHTML += `
-//             <div class="sub-div" data-id ="${product.id}">
-//                 <div class="product-info">
-//                     <img src="${product.imgSrc}" alt="">
-//                     <P>${product.name}</P>
-//                     <div class="price-tag">
-//                     <p class="price-title">PRICE</p>
-//                     <p class="price-value">₵${product.price}</p>
-//                     </div>
-//                 </div>
-//             <button onclick="addToCart('${product.id}')">ADD TO CART</button>
-//             </div>
-//         `
-//     })
-// }
-// renderProducts();
+console.log("App.js is running");
