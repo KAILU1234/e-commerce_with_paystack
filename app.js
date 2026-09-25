@@ -457,32 +457,25 @@ if (checkoutForm && errorElement) {
             }
 
 
-            // If there are errors
-            if (messages.length > 0) {
+// If there are errors
+if(messages.length > 0){
+    errorElement.innerText = messages.join(", ");
+    console.log("VALIDATION FAILED:", messages);
+    return;
+}
+errorElement.innerText = "";
+const user = {
+    name: nameInput.value.trim(),
+    email: emailInput.value.trim(),
+    phone: phoneInput.value.trim()
+};
+const order = {
+    user: user,
+    cart: cart
+};
+console.log("USER:", user);
 
-                errorElement.innerText =
-                    messages.join(", ");
-
-                console.log(
-                    "VALIDATION FAILED:",
-                    messages
-                );
-
-                return;
-            }
-
-
-            // Validation passed
-            errorElement.innerText = "";
-
-            console.log(
-                "VALIDATION PASSED"
-            );
-
-            alert(
-                "Validation passed! Ready for checkout."
-            );
-
+alert("Validation passed! Ready for checkout.");
             // PAYSTACK CODE WILL GO HERE
         }
     );

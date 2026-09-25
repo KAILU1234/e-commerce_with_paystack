@@ -23,7 +23,8 @@
 
         <div id="cartdiv">
             <img src="/Images/cart.svg" alt="cart icon" id="carticon">
-            <span id="cartspan">3</span>
+            <!-- <span id="cartspan">3</span> -->
+            <span id="cartspan" class="totalItemsInCart">0</span>
         </div>
 
     </header>
@@ -92,19 +93,17 @@
                 </table>
             </section>
             <!-- USER DETAILS -->
-            <section class="user-details">
+            <!-- <section class="user-details">
                 <input type="text" placeholder="Your Name" class="inputField">
                 <br><br>
                 <input type="email" placeholder="Your Email" class="inputField">
                 <br><br>
                 <input type="text" placeholder="Your Phone Number" class="inputField">
             </section>
-            <!-- TOTAL -->
             <section class="total-section">
                 <p>Total Amount to be Paid</p>
                 <h2 id="totalPrice">₵0</h2>
             </section>
-            <!-- ACTIONS -->
             <section class="cart-actions">
                 <button id="continueBtn">
                     Continue Shopping
@@ -112,7 +111,28 @@
                 <button id="checkoutBtn">
                     Checkout
                 </button>
-            </section>
+            </section> -->
+            <form id="checkoutForm" action="/" method="get">
+                <section class="user-details">
+                    <input type="text" placeholder="Your Name" id="name" class="inputField">
+                    <br>
+                    <input type="email" placeholder="Your Email" id="email" class="inputField">
+                    <br>
+                    <input type="text" placeholder="Your Phone Number" id="phone" class="inputField">
+                </section>
+                <section class="total-section">
+                    <p>Total Amount to be Paid</p>
+                    <h2 id="totalPrice">₵0</h2>
+                </section>
+                <section class="cart-actions">
+                    <button type="button" id="continueBtn">
+                        Continue Shopping
+                    </button>
+                    <button type="submit" id="checkoutBtn">
+                        Checkout
+                    </button>
+                </section>
+            </form>
         </div>
     </div>
     <script src="products.js"></script>
