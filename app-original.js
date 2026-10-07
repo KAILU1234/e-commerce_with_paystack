@@ -311,6 +311,20 @@ if (checkoutForm) {
 
         errorElement.innerText = "";
         console.log("VALIDATION PASSED");
+        const user = {
+            name: name.value.trim(),
+            email: email.value.trim(),
+            phone: phone.value.trim()
+        };
+
+        const order = {
+            user: user,
+            cart: cart
+        };
+
+        localStorage.setItem("ORDER", JSON.stringify(order));
+
+        console.log("ORDER:", order);
     });
 }
 console.log("App.js is running");

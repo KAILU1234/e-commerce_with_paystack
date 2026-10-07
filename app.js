@@ -316,6 +316,13 @@ if (continueBtn && cartModal) {
         cartModal.style.display = "none";
     });
 }
+if (cartModal) {
+    cartModal.addEventListener("click", (e) => {
+        if (e.target === cartModal) {
+            cartModal.style.display = "none";
+        }
+    });
+}
 
 
 // ========================================
@@ -457,28 +464,140 @@ if (checkoutForm && errorElement) {
             }
 
 
-// If there are errors
-if(messages.length > 0){
-    errorElement.innerText = messages.join(", ");
-    console.log("VALIDATION FAILED:", messages);
-    return;
-}
-errorElement.innerText = "";
-const user = {
-    name: nameInput.value.trim(),
-    email: emailInput.value.trim(),
-    phone: phoneInput.value.trim()
-};
-const order = {
-    user: user,
-    cart: cart
-};
-console.log("USER:", user);
-
-alert("Validation passed! Ready for checkout.");
-            // PAYSTACK CODE WILL GO HERE
+        // If there are errors
+        if(messages.length > 0){
+            errorElement.innerText = messages.join(", ");
+            console.log("VALIDATION FAILED:", messages);
+            return;
         }
-    );
+        errorElement.innerText = "";
+        // const user = {
+        //     name: nameInput.value.trim(),
+        //     email: emailInput.value.trim(),
+        //     phone: phoneInput.value.trim()
+        // };
+        // const order = {
+        //     user: user,
+        //     cart: cart
+        // };
+
+        // localStorage.setItem("ORDER", JSON.stringify(order));
+        // let totalAmount = 0;
+
+        // cart.forEach((item) => {
+        //     totalAmount += item.price * item.numberOfUnits;
+        // });
+
+        const user = {
+            name: nameInput.value.trim(),
+            email: emailInput.value.trim(),
+            phone: phoneInput.value.trim()
+        };
+
+        const order = {
+            user: user,
+            cart: cart
+        };
+
+        localStorage.setItem("ORDER", JSON.stringify(order));
+
+        console.log("USER:", user);
+        console.log("ORDER:", order);
+
+
+        // Calculate total amount
+        let totalAmount = 0;
+
+        cart.forEach((item) => {
+            totalAmount += item.price * item.numberOfUnits;
+        });
+        const paystackAmount = totalAmount * 100;
+        console.log("PAYSTACK AMOUNT:", paystackAmount);
+        // Close cart modal before Paystack opens
+        cartModal.style.display = "none";
+        // Start Paystack
+        const popup = new PaystackPop();
+        popup.checkout({
+            key: "pk_test_d8c25382df92d6f7844f4e31f8ebaec932bc3a97",
+            email: user.email,
+            amount: paystackAmount,
+            currency: "GHS",
+            phone: user.phone,
+            // onSuccess: (transaction) => {
+            //     console.log("PAYMENT SUCCESSFUL:", transaction);
+            // },
+            onSuccess: (transaction) => {
+            console.log("PAYMENT SUCCESSFUL:", transaction);
+            showSummaryModal(user, cart);
+        },
+            onCancel: () => {
+                console.log("PAYMENT CANCELLED");
+            },
+            onError: (error) => {
+                console.log("PAYMENT ERROR:", error);
+            }
+        });
+                }
+            );
+}
+function showSummaryModal(user, purchasedCart) {
+
+    const summaryModal =
+        document.getElementById("summaryModal");
+
+    const summaryName =
+        document.getElementById("summaryName");
+
+    const summaryTableBody =
+        document.getElementById("summaryTableBody");
+
+    if (!summaryModal || !summaryName || !summaryTableBody) {
+        return;
+    }
+
+    // Display customer's name
+    summaryName.innerText = user.name;
+
+    // Clear previous summary
+    summaryTableBody.innerHTML = "";
+
+    // Add purchased items
+    purchasedCart.forEach((item, index) => {
+
+        summaryTableBody.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.name}</td>
+                <td>${item.numberOfUnits}</td>
+            </tr>
+        `;
+
+    });
+
+    // Show summary modal
+    summaryModal.style.display = "flex";
+}
+const summaryOkBtn =
+    document.getElementById("summaryOkBtn");
+
+if (summaryOkBtn) {
+
+    summaryOkBtn.addEventListener("click", () => {
+
+        // Clear cart
+        localStorage.removeItem("CART");
+
+        // Clear customer/order data
+        localStorage.removeItem("ORDER");
+
+        // Clear current JavaScript cart
+        cart = [];
+
+        // Reload page
+        location.reload();
+
+    });
+
 }
 
 

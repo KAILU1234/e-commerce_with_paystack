@@ -135,6 +135,41 @@
             </form>
         </div>
     </div>
+    <!-- SUMMARY MODAL -->
+    <div id="summaryModal" class="summary-modal">
+
+        <div class="summary-container">
+
+            <h2>
+                Thank You, <span id="summaryName"></span>,
+                Your Order Has Been Received
+            </h2>
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h3>Summary</h3>
+
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+
+                <tbody id="summaryTableBody">
+                    <!-- Items will be added by JavaScript -->
+                </tbody>
+            </table>
+
+            <button id="summaryOkBtn">Ok</button>
+
+        </div>
+
+    </div>
     <script src="products.js"></script>
     <script src="app.js"></script>
 </body>
