@@ -2,7 +2,7 @@ let products = [{
         index: 1,
         id: 'p1',
         name: 'SAMSUNG TV',
-        price: 500000,
+        price: 500,
         instock: 10,
         imgSrc:'/Images/product1.png'
     },
@@ -10,7 +10,7 @@ let products = [{
         index: 2,
         id: 'p2',
         name: 'PIXEL 4A',
-        price: 250000,
+        price: 250,
         instock: 8,
         imgSrc:'/Images/product2.png'
     },
@@ -18,7 +18,7 @@ let products = [{
         index: 3,
         id: 'p3',
         name: 'PS 5',
-        price: 300000,
+        price: 300,
         instock: 15,
         imgSrc:'/Images/product3.png'
     },
@@ -26,7 +26,7 @@ let products = [{
         index: 4,
         id: 'p4',
         name: 'MACBOOK AIR',
-        price: 800000,
+        price: 800,
         instock: 6,
         imgSrc:'/Images/product4.png'
     },
@@ -34,7 +34,7 @@ let products = [{
         index: 5,
         id: 'p5',
         name: 'APPLE WATCH',
-        price: 95000,
+        price: 95,
         instock: 2,
         imgSrc:'/Images/product5.png'
     },
@@ -42,7 +42,7 @@ let products = [{
         index: 6,
         id: 'p6',
         name: 'AIR PODS',
-        price: 75000,
+        price: 75,
         instock: 25,
         imgSrc:'/Images/product6.png'
     },

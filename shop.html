@@ -33,36 +33,6 @@
         <h1 id="shop-title">OUR GADGETS</h1>
 
         <div class="gadgets" id="gadgets">
-            <!-- <div class="sub-div">
-                <img src="/Images/product1.png" alt="">
-                <P>SUMSUNG TV</P>
-                <button>ADD TO CART</button>
-            </div>
-            <div class="sub-div">
-                <img src="/Images/product2.png" alt="">
-                <P>PIXEL 4A</P>
-                <button>ADD TO CART</button>
-            </div>
-            <div class="sub-div">
-                <img src="/Images/product3.png" alt="">
-                <P>SPS 5</P>
-                <button>ADD TO CART</button>
-            </div>
-            <div class="sub-div">
-                <img src="/Images/product4.png" alt="">
-                <P>MACBOOK AIR</P>
-                <button>ADD TO CART</button>
-            </div>
-            <div class="sub-div">
-                <img src="/Images/product5.png" alt="">
-                <P>APPLE WATCH</P>
-                <button>ADD TO CART</button>
-            </div>
-            <div class="sub-div">
-                <img src="/Images/product6.png" alt="">
-                <P>AIR PODS</P>
-                <button>ADD TO CART</button>
-            </div> -->
         </div>
     </main>
     <br>
@@ -92,26 +62,6 @@
                     </tbody>
                 </table>
             </section>
-            <!-- USER DETAILS -->
-            <!-- <section class="user-details">
-                <input type="text" placeholder="Your Name" class="inputField">
-                <br><br>
-                <input type="email" placeholder="Your Email" class="inputField">
-                <br><br>
-                <input type="text" placeholder="Your Phone Number" class="inputField">
-            </section>
-            <section class="total-section">
-                <p>Total Amount to be Paid</p>
-                <h2 id="totalPrice">₵0</h2>
-            </section>
-            <section class="cart-actions">
-                <button id="continueBtn">
-                    Continue Shopping
-                </button>
-                <button id="checkoutBtn">
-                    Checkout
-                </button>
-            </section> -->
             <form id="checkoutForm" action="/" method="get">
                 <section class="user-details">
                     <input type="text" placeholder="Your Name" id="name" class="inputField">
@@ -137,20 +87,13 @@
     </div>
     <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="summary-modal">
-
         <div class="summary-container">
-
             <h2>
                 Thank You, <span id="summaryName"></span>,
                 Your Order Has Been Received
             </h2>
-
-            <div class="success-icon">
-                ✓
-            </div>
-
+            <img src="Images/check.svg" class="success-icon" alt="Success">
             <h3>Summary</h3>
-
             <table class="summary-table">
                 <thead>
                     <tr>
@@ -159,17 +102,14 @@
                         <th>Quantity</th>
                     </tr>
                 </thead>
-
                 <tbody id="summaryTableBody">
                     <!-- Items will be added by JavaScript -->
                 </tbody>
             </table>
-
             <button id="summaryOkBtn">Ok</button>
-
         </div>
-
     </div>
+    <script src="https://js.paystack.co/v2/inline.js"></script>
     <script src="products.js"></script>
     <script src="app.js"></script>
 </body>

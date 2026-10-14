@@ -44,98 +44,73 @@ function renderProducts() {
         const productIsInCart = cart.some(
             (item) => item.id === product.id
         );
-
         myProduct.innerHTML += `
             <div 
                 class="sub-div ${productIsInCart ? "in-cart" : ""}" 
                 data-id="${product.id}"
             >
-
                 <div class="product-info">
-
                     <div class="image-container">
-
                         <img 
                             class="product-image" 
                             src="${product.imgSrc}" 
                             alt="${product.name}"
                         >
-
                         <div class="price-overlay">
                             <p class="price-title">PRICE</p>
                             <p class="price-value">₵${product.price}</p>
                         </div>
-
                     </div>
-
                     <p class="product-name">${product.name}</p>
-
                 </div>
-
                 <button onclick="addToCart('${product.id}')">
                     ${productIsInCart
                         ? "REMOVE FROM CART"
                         : "ADD TO CART"}
                 </button>
-
             </div>
         `;
     });
 }
 
-
 // ========================================
 // ADD OR REMOVE PRODUCT FROM CART
 // ========================================
-
 function addToCart(id) {
-
     // Check if the item is already in the cart
     const itemAlreadyInCart = cart.some(
         (item) => item.id === id
     );
-
     if (itemAlreadyInCart) {
-
         // If already in cart, remove it
         removeItemFromCart(id);
-
     } else {
-
         // Find the product in products.js
         const product = products.find(
             (product) => product.id === id
         );
-
         // Add it to the cart
         cart.push({
             ...product,
             numberOfUnits: 1
         });
-
         // Update everything
         updateCart();
     }
-
     // Update the shop buttons
     renderProducts();
 }
 
-
 // ========================================
 // REMOVE ITEM FROM CART
 // ========================================
-
 function removeItemFromCart(id) {
-
     // Keep every item EXCEPT the selected one
     cart = cart.filter(
         (item) => item.id !== id
     );
-
     // Update cart display and Local Storage
     updateCart();
-
     // Update Shop page button
     renderProducts();
 }
@@ -146,11 +121,8 @@ function removeItemFromCart(id) {
 // ========================================
 
 function ChangeNumberOfUnits(action, id) {
-
     cart = cart.map((item) => {
-
         if (item.id === id) {
-
             if (
                 action === "minus" &&
                 item.numberOfUnits > 1
@@ -160,7 +132,6 @@ function ChangeNumberOfUnits(action, id) {
                     numberOfUnits: item.numberOfUnits - 1
                 };
             }
-
             if (action === "plus") {
                 return {
                     ...item,
@@ -168,59 +139,40 @@ function ChangeNumberOfUnits(action, id) {
                 };
             }
         }
-
         return item;
     });
 
     updateCart();
 }
-
-
 // ========================================
 // UPDATE THE ENTIRE CART
 // ========================================
-
 function updateCart() {
-
     renderCartItemsList();
     renderSubtotal();
-
     // Save the current cart
     localStorage.setItem(
         "CART",
         JSON.stringify(cart)
     );
 }
-
-
 // ========================================
 // RENDER CART ITEMS
 // ========================================
-
 function renderCartItemsList() {
-
     const cartTableBody =
         document.getElementById("cartTableBody");
-
     // Stop if this page doesn't have the cart table
     if (!cartTableBody) return;
-
     // Clear previous rows
     cartTableBody.innerHTML = "";
-
     cart.forEach((item, index) => {
-
         cartTableBody.innerHTML += `
             <tr>
-
                 <td>${index + 1}</td>
-
                 <td>${item.name}</td>
-
                 <td>₵${item.price}</td>
-
                 <td>
-
                     <button
                         onclick="ChangeNumberOfUnits(
                             'minus',
@@ -229,9 +181,7 @@ function renderCartItemsList() {
                     >
                         -
                     </button>
-
                     ${item.numberOfUnits}
-
                     <button
                         onclick="ChangeNumberOfUnits(
                             'plus',
@@ -240,79 +190,54 @@ function renderCartItemsList() {
                     >
                         +
                     </button>
-
                 </td>
-
                 <td>
-
                     <button
                         onclick="removeItemFromCart('${item.id}')"
                     >
                         Remove
                     </button>
-
                 </td>
-
             </tr>
         `;
     });
 }
-
-
 // ========================================
 // CALCULATE SUBTOTAL AND CART COUNT
 // ========================================
-
 function renderSubtotal() {
-
     let totalPrice = 0;
     let totalItems = 0;
-
     cart.forEach((item) => {
-
         totalPrice +=
             item.price * item.numberOfUnits;
-
         totalItems +=
             item.numberOfUnits;
     });
-
     // Update total price
     if (subtotalEl) {
         subtotalEl.innerHTML =
             `₵${totalPrice.toFixed(2)}`;
     }
-
     // Update number on cart icon
     if (totalItemsInCartEl) {
         totalItemsInCartEl.innerHTML = totalItems;
     }
 }
-
-
 // ========================================
 // OPEN CART MODAL
 // ========================================
-
 if (cartDiv && cartModal) {
-
     cartDiv.addEventListener("click", () => {
-
         updateCart();
-
         cartModal.style.display = "flex";
     });
 }
-
-
-// ========================================
+// =======================================
 // CLOSE CART MODAL
 // ========================================
-
 if (continueBtn && cartModal) {
-
     continueBtn.addEventListener("click", () => {
-
         cartModal.style.display = "none";
     });
 }
@@ -323,84 +248,56 @@ if (cartModal) {
         }
     });
 }
-
-
 // ========================================
 // FORM VALIDATION FUNCTIONS
 // ========================================
-
 function validateName() {
-
     // If this page has no name field, stop
     if (!nameInput) return "";
-
     if (nameInput.value.trim() === "") {
         return "Name is required!";
     }
-
     return "";
 }
-
-
 function validateEmail() {
-
     if (!emailInput) return "";
-
     const emailValue =
         emailInput.value.trim();
-
     // Correct email pattern
     const emailPattern =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if (emailValue === "") {
         return "Email is required!";
     }
-
     if (!emailPattern.test(emailValue)) {
         return "Please enter a valid email address!";
     }
-
     return "";
 }
 
-
 function validatePhone() {
-
     if (!phoneInput) return "";
-
     const phoneValue =
         phoneInput.value.trim();
-
     // Exactly 10 digits
     const phonePattern = /^\d{10}$/;
-
     if (phoneValue === "") {
         return "Phone number is required!";
     }
-
     if (!phonePattern.test(phoneValue)) {
         return "Phone number must contain exactly 10 digits!";
     }
-
     return "";
 }
-
-
 // ========================================
 // VALIDATE EACH FIELD WHEN USER LEAVES IT
 // ========================================
-
 if (nameInput && errorElement) {
-
     nameInput.addEventListener("blur", () => {
-
         errorElement.innerText =
             validateName();
     });
 }
-
-
 if (emailInput && errorElement) {
 
     emailInput.addEventListener("blur", () => {
@@ -409,8 +306,6 @@ if (emailInput && errorElement) {
             validateEmail();
     });
 }
-
-
 if (phoneInput && errorElement) {
 
     phoneInput.addEventListener("blur", () => {
@@ -419,99 +314,79 @@ if (phoneInput && errorElement) {
             validatePhone();
     });
 }
-
-
 // ========================================
 // CHECKOUT FORM SUBMISSION
 // ========================================
-
-if (checkoutForm && errorElement) {
-
+function showError(message) {
+    if (errorElement) {
+        errorElement.innerText = message;
+    } else if (message) {
+        alert(message);
+    }
+}
+if (checkoutForm) {
     checkoutForm.addEventListener(
         "submit",
         (e) => {
-
             // Stop the form from refreshing the page
             e.preventDefault();
-
             console.log(
                 "CHECKOUT BUTTON WAS CLICKED"
             );
-
             let messages = [];
-
             // Validate name
             const nameError = validateName();
-
             if (nameError) {
                 messages.push(nameError);
             }
-
-
             // Validate email
             const emailError = validateEmail();
-
             if (emailError) {
                 messages.push(emailError);
             }
-
-
             // Validate phone
             const phoneError = validatePhone();
-
             if (phoneError) {
                 messages.push(phoneError);
             }
-
-
         // If there are errors
         if(messages.length > 0){
-            errorElement.innerText = messages.join(", ");
+            // errorElement.innerText = messages.join(", ");
+            showError(messages.join(", "));
             console.log("VALIDATION FAILED:", messages);
             return;
         }
-        errorElement.innerText = "";
-        // const user = {
-        //     name: nameInput.value.trim(),
-        //     email: emailInput.value.trim(),
-        //     phone: phoneInput.value.trim()
-        // };
-        // const order = {
-        //     user: user,
-        //     cart: cart
-        // };
-
-        // localStorage.setItem("ORDER", JSON.stringify(order));
-        // let totalAmount = 0;
-
-        // cart.forEach((item) => {
-        //     totalAmount += item.price * item.numberOfUnits;
-        // });
-
+        // errorElement.innerText = "";
+        showError("");
+        // Stop if the cart is empty
+        if (cart.length === 0) {
+            showError("Your cart is empty!");
+            return;
+        }
+        // Stop if the Paystack script did not load
+        if (typeof PaystackPop === "undefined") {
+            showError("Payment system could not load. Check your internet connection and refresh the page.");
+            return;
+        }
         const user = {
             name: nameInput.value.trim(),
             email: emailInput.value.trim(),
             phone: phoneInput.value.trim()
         };
-
         const order = {
             user: user,
             cart: cart
         };
-
         localStorage.setItem("ORDER", JSON.stringify(order));
-
         console.log("USER:", user);
         console.log("ORDER:", order);
-
-
         // Calculate total amount
         let totalAmount = 0;
-
         cart.forEach((item) => {
             totalAmount += item.price * item.numberOfUnits;
         });
-        const paystackAmount = totalAmount * 100;
+        // const paystackAmount = totalAmount * 100;
+        const paystackAmount = Math.round(totalAmount * 100);
         console.log("PAYSTACK AMOUNT:", paystackAmount);
         // Close cart modal before Paystack opens
         cartModal.style.display = "none";
@@ -523,9 +398,6 @@ if (checkoutForm && errorElement) {
             amount: paystackAmount,
             currency: "GHS",
             phone: user.phone,
-            // onSuccess: (transaction) => {
-            //     console.log("PAYMENT SUCCESSFUL:", transaction);
-            // },
             onSuccess: (transaction) => {
             console.log("PAYMENT SUCCESSFUL:", transaction);
             showSummaryModal(user, cart);
@@ -541,29 +413,16 @@ if (checkoutForm && errorElement) {
             );
 }
 function showSummaryModal(user, purchasedCart) {
-
-    const summaryModal =
-        document.getElementById("summaryModal");
-
-    const summaryName =
-        document.getElementById("summaryName");
-
-    const summaryTableBody =
-        document.getElementById("summaryTableBody");
-
+    const summaryModal = document.getElementById("summaryModal");
+    const summaryName = document.getElementById("summaryName");
+    const summaryTableBody = document.getElementById("summaryTableBody");
     if (!summaryModal || !summaryName || !summaryTableBody) {
+        console.error("Summary modal elements are missing from this page.");
         return;
     }
-
-    // Display customer's name
     summaryName.innerText = user.name;
-
-    // Clear previous summary
     summaryTableBody.innerHTML = "";
-
-    // Add purchased items
     purchasedCart.forEach((item, index) => {
-
         summaryTableBody.innerHTML += `
             <tr>
                 <td>${index + 1}</td>
@@ -571,41 +430,26 @@ function showSummaryModal(user, purchasedCart) {
                 <td>${item.numberOfUnits}</td>
             </tr>
         `;
-
     });
-
-    // Show summary modal
     summaryModal.style.display = "flex";
 }
 const summaryOkBtn =
     document.getElementById("summaryOkBtn");
-
 if (summaryOkBtn) {
-
     summaryOkBtn.addEventListener("click", () => {
-
         // Clear cart
         localStorage.removeItem("CART");
-
         // Clear customer/order data
         localStorage.removeItem("ORDER");
-
         // Clear current JavaScript cart
         cart = [];
-
         // Reload page
         location.reload();
-
     });
-
 }
-
-
 // ========================================
 // INITIALIZE APPLICATION
 // ========================================
-
 renderProducts();
 updateCart();
-
 console.log("App.js is running");
